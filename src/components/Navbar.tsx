@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
 import { Menu, X, GraduationCap } from "lucide-react";
-
-const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Programs", href: "#programs" },
-  { label: "Facilities", href: "#facilities" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
-];
+import { useSiteContent } from "./SiteContentProvider";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { content } = useSiteContent();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -33,13 +25,13 @@ const Navbar = () => {
             <GraduationCap className="h-6 w-6 text-primary-foreground" />
           </div>
           <span className={`font-heading text-xl font-bold ${isScrolled ? "text-foreground" : "text-primary-foreground"}`}>
-            Bright Futures
+            {content.navigation.brandName}
           </span>
         </a>
 
         {/* Desktop */}
         <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
+          {content.navigation.links.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -51,10 +43,10 @@ const Navbar = () => {
             </a>
           ))}
           <a
-            href="#admission"
+            href={content.navigation.ctaHref}
             className="rounded-lg bg-secondary px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-105"
           >
-            Apply Now
+            {content.navigation.ctaLabel}
           </a>
         </div>
 
@@ -71,7 +63,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isMobileOpen && (
         <div className="absolute left-0 right-0 top-full border-b bg-background p-4 shadow-lg md:hidden">
-          {navLinks.map((link) => (
+          {content.navigation.links.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -82,11 +74,11 @@ const Navbar = () => {
             </a>
           ))}
           <a
-            href="#admission"
+            href={content.navigation.ctaHref}
             onClick={() => setIsMobileOpen(false)}
             className="mt-2 block rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground"
           >
-            Apply Now
+            {content.navigation.ctaLabel}
           </a>
         </div>
       )}

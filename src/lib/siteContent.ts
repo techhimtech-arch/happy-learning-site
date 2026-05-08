@@ -7,6 +7,12 @@ import gallery5 from "@/assets/gallery-5.jpg";
 import gallery6 from "@/assets/gallery-6.jpg";
 
 export type SiteContent = {
+  navigation: {
+    brandName: string;
+    links: Array<{ label: string; href: string }>;
+    ctaLabel: string;
+    ctaHref: string;
+  };
   hero: {
     badge: string;
     title: string;
@@ -69,6 +75,27 @@ export type SiteContent = {
     title: string;
     items: Array<{ q: string; a: string }>;
   };
+  whyChooseUs: {
+    eyebrow: string;
+    title: string;
+    items: Array<{ title: string; desc: string }>;
+  };
+  footer: {
+    brandName: string;
+    description: string;
+    quickLinks: Array<{ label: string; href: string }>;
+    programs: string[];
+    contactDetails: Array<{ label: string; text: string }>;
+    socialLinks: Array<{ platform: string; href: string }>;
+    copyrightText: string;
+    poweredByText: string;
+    poweredByHref: string;
+  };
+  floatingButtons: {
+    phoneNumber: string;
+    whatsappNumber: string;
+    whatsappMessage: string;
+  };
   programsList?: Array<{ title: string; slug?: { current?: string }; excerpt?: string; featured?: boolean }>;
   testimonialsList?: Array<{ name: string; role: string; text: string; rating?: number }>;
   galleryImages?: Array<{ image?: string; alt?: string; caption?: string }>;
@@ -78,6 +105,20 @@ export type SiteContent = {
 };
 
 export const defaultSiteContent: SiteContent = {
+  navigation: {
+    brandName: "Bright Futures",
+    links: [
+      { label: "Home", href: "#home" },
+      { label: "About", href: "#about" },
+      { label: "Programs", href: "#programs" },
+      { label: "Facilities", href: "#facilities" },
+      { label: "Gallery", href: "#gallery" },
+      { label: "Testimonials", href: "#testimonials" },
+      { label: "Contact", href: "#contact" },
+    ],
+    ctaLabel: "Apply Now",
+    ctaHref: "#admission",
+  },
   hero: {
     badge: "Admissions Open 2025-26",
     title: "Building Bright Futures for Your Child",
@@ -192,9 +233,53 @@ export const defaultSiteContent: SiteContent = {
       { q: "What curriculum does the school follow?", a: "We follow the CBSE curriculum with additional focus on practical learning, co-curricular activities, and overall personality development." },
     ],
   },
+  whyChooseUs: {
+    eyebrow: "Why Choose Us",
+    title: "What Makes Us Different",
+    items: [
+      { title: "Experienced Faculty", desc: "Highly qualified and passionate teachers." },
+      { title: "Smart Classrooms", desc: "Technology-enabled interactive learning." },
+      { title: "Safe Campus", desc: "24/7 CCTV surveillance and secure premises." },
+      { title: "Sports & Activities", desc: "Wide range of sports and co-curricular activities." },
+      { title: "Personal Attention", desc: "Low student-teacher ratio for individual care." },
+      { title: "Modern Methods", desc: "Innovative and updated teaching approaches." },
+    ],
+  },
+  footer: {
+    brandName: "Bright Futures",
+    description: "Building bright futures for your child through quality education, experienced teachers, and a safe learning environment.",
+    quickLinks: [
+      { label: "Home", href: "#home" },
+      { label: "About", href: "#about" },
+      { label: "Programs", href: "#programs" },
+      { label: "Gallery", href: "#gallery" },
+      { label: "Contact", href: "#contact" },
+    ],
+    programs: ["Pre-Primary", "Primary School", "Middle School", "Senior Secondary"],
+    contactDetails: [
+      { label: "Address", text: "123 Education Lane, Knowledge City" },
+      { label: "Phone", text: "+91 98765 43210" },
+      { label: "Email", text: "info@brightfutures.edu" },
+    ],
+    socialLinks: [
+      { platform: "Facebook", href: "#" },
+      { platform: "Twitter", href: "#" },
+      { platform: "Instagram", href: "#" },
+      { platform: "YouTube", href: "#" },
+    ],
+    copyrightText: "© 2025 Bright Futures School. All rights reserved.",
+    poweredByText: "TechHim Solutions",
+    poweredByHref: "#",
+  },
+  floatingButtons: {
+    phoneNumber: "+919876543210",
+    whatsappNumber: "+919876543210",
+    whatsappMessage: "Hello, I want to enquire about admission",
+  },
 };
 
 export const siteContentQuery = `*[_type == "siteSettings"][0]{
+  navigation,
   hero,
   about,
   programs,
@@ -204,7 +289,10 @@ export const siteContentQuery = `*[_type == "siteSettings"][0]{
   testimonials,
   achievements,
   contact,
-  faq
+  faq,
+  whyChooseUs,
+  footer,
+  floatingButtons
 }`;
 
 export const programsListQuery = `*[_type == "program"]{title, slug, excerpt, featured, "thumbnailUrl": thumbnail.asset->url}`;
@@ -229,6 +317,11 @@ export function mergeSiteContent(incoming?: Partial<SiteContent> | null): SiteCo
   }
 
   return {
+    navigation: {
+      ...defaultSiteContent.navigation,
+      ...incoming.navigation,
+      links: mergeArray(defaultSiteContent.navigation.links, incoming.navigation?.links),
+    },
     hero: {
       ...defaultSiteContent.hero,
       ...incoming.hero,
@@ -280,6 +373,23 @@ export function mergeSiteContent(incoming?: Partial<SiteContent> | null): SiteCo
       ...defaultSiteContent.faq,
       ...incoming.faq,
       items: mergeArray(defaultSiteContent.faq.items, incoming.faq?.items),
+    },
+    whyChooseUs: {
+      ...defaultSiteContent.whyChooseUs,
+      ...incoming.whyChooseUs,
+      items: mergeArray(defaultSiteContent.whyChooseUs.items, incoming.whyChooseUs?.items),
+    },
+    footer: {
+      ...defaultSiteContent.footer,
+      ...incoming.footer,
+      quickLinks: mergeArray(defaultSiteContent.footer.quickLinks, incoming.footer?.quickLinks),
+      programs: mergeArray(defaultSiteContent.footer.programs, incoming.footer?.programs),
+      contactDetails: mergeArray(defaultSiteContent.footer.contactDetails, incoming.footer?.contactDetails),
+      socialLinks: mergeArray(defaultSiteContent.footer.socialLinks, incoming.footer?.socialLinks),
+    },
+    floatingButtons: {
+      ...defaultSiteContent.floatingButtons,
+      ...incoming.floatingButtons,
     },
   };
 }
