@@ -7,6 +7,11 @@ import gallery5 from "@/assets/gallery-5.jpg";
 import gallery6 from "@/assets/gallery-6.jpg";
 
 export type SiteContent = {
+  branding: {
+    brandName: string;
+    tagline: string;
+    logoUrl?: string;
+  };
   navigation: {
     brandName: string;
     links: Array<{ label: string; href: string }>;
@@ -105,6 +110,11 @@ export type SiteContent = {
 };
 
 export const defaultSiteContent: SiteContent = {
+  branding: {
+    brandName: "Bright Futures",
+    tagline: "Building bright futures for your child",
+    logoUrl: "",
+  },
   navigation: {
     brandName: "Bright Futures",
     links: [
@@ -279,7 +289,6 @@ export const defaultSiteContent: SiteContent = {
 };
 
 export const siteContentQuery = `*[_type == "siteSettings"][0]{
-  navigation,
   hero,
   about,
   programs,
@@ -291,9 +300,14 @@ export const siteContentQuery = `*[_type == "siteSettings"][0]{
   contact,
   faq,
   whyChooseUs,
-  footer,
   floatingButtons
 }`;
+
+export const brandingQuery = `*[_type == "branding"][0]{brandName, tagline, "logoUrl": logo.asset->url}`;
+
+export const navigationQuery = `*[_type == "navigation"][0]{links, ctaLabel, ctaHref}`;
+
+export const footerQuery = `*[_type == "footer"][0]{description, quickLinks, programs, contactDetails, socialLinks, copyrightText, poweredByText, poweredByHref}`;
 
 export const programsListQuery = `*[_type == "program"]{title, slug, excerpt, featured, "thumbnailUrl": thumbnail.asset->url}`;
 
@@ -317,6 +331,10 @@ export function mergeSiteContent(incoming?: Partial<SiteContent> | null): SiteCo
   }
 
   return {
+    branding: {
+      ...defaultSiteContent.branding,
+      ...incoming.branding,
+    },
     navigation: {
       ...defaultSiteContent.navigation,
       ...incoming.navigation,

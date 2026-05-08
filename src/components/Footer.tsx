@@ -18,7 +18,7 @@ const Footer = () => {
           <div>
             <div className="mb-4 flex items-center gap-2">
               <GraduationCap className="h-7 w-7" />
-              <span className="font-heading text-xl font-bold">{content.footer.brandName}</span>
+              <span className="font-heading text-xl font-bold">{content.branding.brandName}</span>
             </div>
             <p className="text-sm text-primary-foreground/75">{content.footer.description}</p>
           </div>

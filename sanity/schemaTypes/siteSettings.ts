@@ -13,26 +13,7 @@ export const siteSettings = defineType({
   title: "Site Settings",
   type: "document",
   fields: [
-    defineField({
-      name: "navigation",
-      title: "Navigation",
-      type: "object",
-      fields: [
-        defineField({ name: "brandName", type: "string" }),
-        defineField({
-          name: "links",
-          type: "array",
-          of: [
-            {
-              type: "object",
-              fields: [defineField({ name: "label", type: "string" }), defineField({ name: "href", type: "string" })],
-            },
-          ],
-        }),
-        defineField({ name: "ctaLabel", type: "string" }),
-        defineField({ name: "ctaHref", type: "string" }),
-      ],
-    }),
+
     defineField({
       name: "hero",
       title: "Hero",
@@ -202,82 +183,35 @@ export const siteSettings = defineType({
             },
           ],
         }),
+      ],
+    }),
+    defineField({
+      name: "whyChooseUs",
+      title: "Why Choose Us",
+      type: "object",
+      fields: [
+        defineField({ name: "eyebrow", type: "string" }),
+        defineField({ name: "title", type: "string" }),
         defineField({
-          name: "whyChooseUs",
-          title: "Why Choose Us",
-          type: "object",
-          fields: [
-            defineField({ name: "eyebrow", type: "string" }),
-            defineField({ name: "title", type: "string" }),
-            defineField({
-              name: "items",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  fields: [defineField({ name: "title", type: "string" }), defineField({ name: "desc", type: "text" })],
-                },
-              ],
-            }),
+          name: "items",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              fields: [defineField({ name: "title", type: "string" }), defineField({ name: "desc", type: "text" })],
+            },
           ],
         }),
-        defineField({
-          name: "footer",
-          title: "Footer",
-          type: "object",
-          fields: [
-            defineField({ name: "brandName", type: "string" }),
-            defineField({ name: "description", type: "text" }),
-            defineField({
-              name: "quickLinks",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  fields: [defineField({ name: "label", type: "string" }), defineField({ name: "href", type: "string" })],
-                },
-              ],
-            }),
-            defineField({
-              name: "programs",
-              type: "array",
-              of: [{ type: "string" }],
-            }),
-            defineField({
-              name: "contactDetails",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  fields: [defineField({ name: "label", type: "string" }), defineField({ name: "text", type: "string" })],
-                },
-              ],
-            }),
-            defineField({
-              name: "socialLinks",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  fields: [defineField({ name: "platform", type: "string" }), defineField({ name: "href", type: "url" })],
-                },
-              ],
-            }),
-            defineField({ name: "copyrightText", type: "string" }),
-            defineField({ name: "poweredByText", type: "string" }),
-            defineField({ name: "poweredByHref", type: "url" }),
-          ],
-        }),
-        defineField({
-          name: "floatingButtons",
-          title: "Floating Buttons",
-          type: "object",
-          fields: [
-            defineField({ name: "phoneNumber", type: "string" }),
-            defineField({ name: "whatsappNumber", type: "string" }),
-            defineField({ name: "whatsappMessage", type: "string" }),
-          ],
-        }),
+      ],
+    }),
+    defineField({
+      name: "floatingButtons",
+      title: "Floating Buttons",
+      type: "object",
+      fields: [
+        defineField({ name: "phoneNumber", type: "string" }),
+        defineField({ name: "whatsappNumber", type: "string" }),
+        defineField({ name: "whatsappMessage", type: "string" }),
       ],
     }),
   ],

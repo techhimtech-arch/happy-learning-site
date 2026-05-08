@@ -25,7 +25,7 @@ const Navbar = () => {
             <GraduationCap className="h-6 w-6 text-primary-foreground" />
           </div>
           <span className={`font-heading text-xl font-bold ${isScrolled ? "text-foreground" : "text-primary-foreground"}`}>
-            {content.navigation.brandName}
+            {content.branding.brandName}
           </span>
         </a>
 

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { isSanityConfigured, sanityClient } from "@/lib/sanity";
-import { defaultSiteContent, mergeSiteContent, siteContentQuery, programsListQuery, testimonialsListQuery, galleryImagesQuery, teachersListQuery, eventsListQuery, announcementsListQuery, type SiteContent } from "@/lib/siteContent";
+import { defaultSiteContent, mergeSiteContent, siteContentQuery, brandingQuery, navigationQuery, footerQuery, programsListQuery, testimonialsListQuery, galleryImagesQuery, teachersListQuery, eventsListQuery, announcementsListQuery, type SiteContent } from "@/lib/siteContent";
 
 type SiteContentContextValue = {
   content: SiteContent;
@@ -27,8 +27,11 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
 
       try {
-        const [siteData, programs, testimonials, gallery, teachers, events, announcements] = await Promise.all([
+        const [siteData, brandingData, navigationData, footerData, programs, testimonials, gallery, teachers, events, announcements] = await Promise.all([
           sanityClient.fetch<Partial<SiteContent> | null>(siteContentQuery),
+          sanityClient.fetch<any>(brandingQuery),
+          sanityClient.fetch<any>(navigationQuery),
+          sanityClient.fetch<any>(footerQuery),
           sanityClient.fetch<any[]>(programsListQuery),
           sanityClient.fetch<any[]>(testimonialsListQuery),
           sanityClient.fetch<any[]>(galleryImagesQuery),
@@ -42,6 +45,20 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
           // attach lists if present
           const final = {
             ...merged,
+            branding: brandingData ? { ...merged.branding, ...brandingData } : merged.branding,
+            navigation: navigationData
+              ? { ...merged.navigation, ...navigationData, links: navigationData.links?.length ? navigationData.links : merged.navigation.links }
+              : merged.navigation,
+            footer: footerData
+              ? {
+                  ...merged.footer,
+                  ...footerData,
+                  quickLinks: footerData.quickLinks?.length ? footerData.quickLinks : merged.footer.quickLinks,
+                  programs: footerData.programs?.length ? footerData.programs : merged.footer.programs,
+                  contactDetails: footerData.contactDetails?.length ? footerData.contactDetails : merged.footer.contactDetails,
+                  socialLinks: footerData.socialLinks?.length ? footerData.socialLinks : merged.footer.socialLinks,
+                }
+              : merged.footer,
             programsList: programs && programs.length > 0 ? programs : merged.programsList,
             testimonialsList: testimonials && testimonials.length > 0 ? testimonials : merged.testimonialsList,
             galleryImages: gallery && gallery.length > 0 ? gallery : merged.galleryImages,
