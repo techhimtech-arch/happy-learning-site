@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ["Poppins", "sans-serif"],
+        heading: ["Plus Jakarta Sans", "sans-serif"],
         body: ["Inter", "sans-serif"],
       },
       colors: {
@@ -26,10 +26,18 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          50: "hsl(var(--primary-50))",
+          100: "hsl(var(--primary-100))",
+          200: "hsl(var(--primary-200))",
+          700: "hsl(var(--primary-700))",
+          800: "hsl(var(--primary-800))",
+          900: "hsl(var(--primary-900))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          50: "hsl(var(--secondary-50))",
+          100: "hsl(var(--secondary-100))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -42,6 +50,20 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          50: "hsl(var(--accent-50))",
+          100: "hsl(var(--accent-100))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        error: {
+          DEFAULT: "hsl(var(--error))",
+          foreground: "hsl(var(--error-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

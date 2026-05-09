@@ -9,19 +9,20 @@ const FloatingButtons = () => {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
       <a
         href={`tel:${content.floatingButtons.phoneNumber}`}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg transition-transform hover:scale-110"
+        className="group flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-lg transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5"
         aria-label="Call us"
       >
-        <Phone className="h-6 w-6 text-primary-foreground" />
+        <Phone className="h-5 w-5 text-primary-foreground transition-transform duration-300 group-hover:scale-110" />
       </a>
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-accent shadow-lg transition-transform hover:scale-110"
+        className="group flex h-12 w-12 items-center justify-center rounded-xl bg-accent shadow-lg transition-all duration-300 hover:-translate-y-0.5"
         aria-label="Chat on WhatsApp"
+        style={{ boxShadow: "0 4px 20px -4px hsla(142, 71%, 45%, 0.4)" }}
       >
-        <MessageCircle className="h-6 w-6 text-accent-foreground" />
+        <MessageCircle className="h-5 w-5 text-accent-foreground transition-transform duration-300 group-hover:scale-110" />
       </a>
     </div>
   );

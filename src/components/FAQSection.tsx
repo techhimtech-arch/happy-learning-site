@@ -15,8 +15,8 @@ const FAQSection = () => {
       <div className="container mx-auto">
         <ScrollReveal>
           <div className="mx-auto max-w-2xl text-center">
-            <span className="mb-2 inline-block text-sm font-semibold uppercase tracking-wider text-primary">{content.faq.eyebrow}</span>
-            <h2 className="mb-8 font-heading text-3xl font-bold text-foreground md:text-4xl">
+            <span className="eyebrow">{content.faq.eyebrow}</span>
+            <h2 className="section-title mt-3">
               {content.faq.title}
             </h2>
           </div>
@@ -25,11 +25,11 @@ const FAQSection = () => {
           <div className="mx-auto max-w-2xl">
             <Accordion type="single" collapsible className="space-y-3">
               {content.faq.items.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="rounded-xl border bg-card px-5">
-                  <AccordionTrigger className="font-heading text-sm font-semibold text-foreground hover:no-underline">
+                <AccordionItem key={i} value={`faq-${i}`} className="premium-card overflow-hidden rounded-2xl border-border/50 px-6 data-[state=open]:border-primary/15 data-[state=open]:shadow-glow">
+                  <AccordionTrigger className="py-5 font-heading text-sm font-semibold text-foreground hover:no-underline">
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground">
+                  <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">
                     {faq.a}
                   </AccordionContent>
                 </AccordionItem>
