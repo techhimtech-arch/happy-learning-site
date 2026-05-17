@@ -9,6 +9,7 @@ export default defineConfig({
   title: "Bright Path Education CMS",
   projectId,
   dataset,
+  basePath: "/studio",
   plugins: [deskTool()],
   schema: {
     types: schemaTypes,
