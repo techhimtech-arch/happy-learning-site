@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { isSanityConfigured, sanityClient } from "@/lib/sanity";
-import { defaultSiteContent, mergeSiteContent, siteContentQuery, brandingQuery, navigationQuery, footerQuery, programsListQuery, testimonialsListQuery, galleryImagesQuery, teachersListQuery, eventsListQuery, announcementsListQuery, type SiteContent } from "@/lib/siteContent";
+import { defaultSiteContent, mergeSiteContent, siteContentQuery, brandingQuery, navigationQuery, footerQuery, programsListQuery, testimonialsListQuery, galleryImagesQuery, teachersListQuery, eventsListQuery, announcementsListQuery, globalAlertQuery, downloadableFilesListQuery, type SiteContent } from "@/lib/siteContent";
 
 type SiteContentContextValue = {
   content: SiteContent;
@@ -27,7 +27,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
 
       try {
-        const [siteData, brandingData, navigationData, footerData, programs, testimonials, gallery, teachers, events, announcements] = await Promise.all([
+        const [siteData, brandingData, navigationData, footerData, programs, testimonials, gallery, teachers, events, announcements, globalAlertData, downloadableFiles] = await Promise.all([
           sanityClient.fetch<Partial<SiteContent> | null>(siteContentQuery),
           sanityClient.fetch<any>(brandingQuery),
           sanityClient.fetch<any>(navigationQuery),
@@ -38,6 +38,8 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
           sanityClient.fetch<any[]>(teachersListQuery),
           sanityClient.fetch<any[]>(eventsListQuery),
           sanityClient.fetch<any[]>(announcementsListQuery),
+          sanityClient.fetch<any>(globalAlertQuery),
+          sanityClient.fetch<any[]>(downloadableFilesListQuery),
         ]);
 
         if (!cancelled) {
@@ -65,6 +67,8 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
             teachersList: teachers && teachers.length > 0 ? teachers : merged.teachersList,
             eventsList: events && events.length > 0 ? events : merged.eventsList,
             announcementsList: announcements && announcements.length > 0 ? announcements : merged.announcementsList,
+            globalAlert: globalAlertData || merged.globalAlert,
+            downloadableFilesList: downloadableFiles && downloadableFiles.length > 0 ? downloadableFiles : merged.downloadableFilesList,
           } as SiteContent;
 
           setContent(final);

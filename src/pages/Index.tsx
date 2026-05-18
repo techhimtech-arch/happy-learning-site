@@ -1,4 +1,6 @@
 import Navbar from "@/components/Navbar";
+import GlobalAlert from "@/components/GlobalAlert";
+import DownloadableFilesSection from "@/components/DownloadableFilesSection";
 import NewsTicker from "@/components/NewsTicker";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -26,6 +28,7 @@ const Index = () => {
 
   return (
     <main>
+      <GlobalAlert />
       <NewsTicker />
       <Navbar />
       <HeroSection />
@@ -34,6 +37,7 @@ const Index = () => {
       <ProgramsSection />
       <WhyChooseUs />
       <FacilitiesSection />
+      <DownloadableFilesSection />
       <AdmissionSection />
       <GallerySection />
       <TestimonialsSection />

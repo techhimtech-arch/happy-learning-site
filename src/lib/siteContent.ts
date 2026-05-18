@@ -107,6 +107,8 @@ export type SiteContent = {
   teachersList?: Array<{ name: string; title?: string; bio?: string; photoUrl?: string }>;
   eventsList?: Array<{ title: string; date?: string; location?: string; description?: string; signupUrl?: string }>;
   announcementsList?: Array<{ title: string; slug?: { current?: string }; category?: string; imageUrl?: string; publishedAt?: string; featured?: boolean }>;
+  globalAlert?: { isActive: boolean; message: string; link?: string };
+  downloadableFilesList?: Array<{ title: string; fileUrl: string; category?: string }>;
 };
 
 export const defaultSiteContent: SiteContent = {
@@ -286,6 +288,10 @@ export const defaultSiteContent: SiteContent = {
     whatsappNumber: "+919876543210",
     whatsappMessage: "Hello, I want to enquire about admission",
   },
+  globalAlert: {
+    isActive: false,
+    message: "",
+  },
 };
 
 export const siteContentQuery = `*[_type == "siteSettings"][0]{
@@ -320,6 +326,10 @@ export const teachersListQuery = `*[_type == "teacher"]{name, title, bio, "photo
 export const eventsListQuery = `*[_type == "event"]{title, date, location, description, signupUrl}`;
 
 export const announcementsListQuery = `*[_type == "announcement"] | order(publishedAt desc) {title, slug, category, "imageUrl": image.asset->url, publishedAt, featured}`;
+
+export const globalAlertQuery = `*[_type == "globalAlert"][0]{isActive, message, link}`;
+
+export const downloadableFilesListQuery = `*[_type == "downloadableFile"]{title, "fileUrl": file.asset->url, category}`;
 
 function mergeArray<T>(fallback: T[], incoming?: T[]) {
   return incoming && incoming.length > 0 ? incoming : fallback;
@@ -409,5 +419,6 @@ export function mergeSiteContent(incoming?: Partial<SiteContent> | null): SiteCo
       ...defaultSiteContent.floatingButtons,
       ...incoming.floatingButtons,
     },
+    globalAlert: incoming.globalAlert || defaultSiteContent.globalAlert,
   };
 }
