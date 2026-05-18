@@ -79,6 +79,12 @@ export const siteSettings = defineType({
         defineField({ name: "eyebrow", type: "string" }),
         defineField({ name: "title", type: "string" }),
         defineField({ name: "badge", type: "string" }),
+        defineField({ 
+          name: "isAdmissionOpen", 
+          title: "Are Admissions Currently Open?", 
+          type: "boolean",
+          initialValue: true 
+        }),
         defineField({
           name: "steps",
           type: "array",
@@ -129,6 +135,12 @@ export const siteSettings = defineType({
                 defineField({ name: "name", type: "string" }),
                 defineField({ name: "role", type: "string" }),
                 defineField({ name: "text", type: "text" }),
+                defineField({ 
+                  name: "videoUrl", 
+                  title: "YouTube Video Link (Optional)", 
+                  type: "url",
+                  description: "Provide YouTube link if there is a video testimonial"
+                }),
                 defineField({ name: "rating", type: "number" }),
               ],
             },
