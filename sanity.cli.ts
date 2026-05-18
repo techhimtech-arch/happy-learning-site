@@ -5,5 +5,5 @@ export default defineCliConfig({
     projectId: process.env.SANITY_STUDIO_PROJECT_ID ?? 'k2tkye84',
     dataset: 'production',
   },
-  studioHost: 'myschool',
+  studioHost: 'happy-learning-myschool',
 })
