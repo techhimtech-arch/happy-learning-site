@@ -27,7 +27,7 @@ const Index = () => {
   }
 
   return (
-    <main>
+    <main className="pt-16">
       <GlobalAlert />
       <NewsTicker />
       <Navbar />

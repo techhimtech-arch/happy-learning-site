@@ -9,9 +9,9 @@ const GlobalAlert = () => {
   }
 
   return (
-    <div className="bg-red-600 text-white px-4 py-2 text-center text-sm font-medium z-50 relative">
+    <div className="fixed top-0 left-0 right-0 w-full bg-red-600 text-white px-4 py-3 text-center text-sm font-medium z-50">
       {alert.link ? (
-        <a href={alert.link} className="hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href={alert.link} className="hover:underline font-semibold" target="_blank" rel="noopener noreferrer">
           {alert.message}
         </a>
       ) : (
