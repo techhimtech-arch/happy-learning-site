@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { GraduationCap, ArrowRight } from "lucide-react";
 import { useSiteContent } from "./SiteContentProvider";
+import LanguageSelector from "./LanguageSelector";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { content } = useSiteContent();
+  const { content, t } = useSiteContent();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -21,6 +22,37 @@ const Navbar = () => {
     }
     return () => { document.body.style.overflow = ""; };
   }, [isMobileOpen]);
+
+  const getTranslatedLabel = (label: string) => {
+    const clean = label.toLowerCase().trim().replace(/\s+/g, "");
+    // Map common items
+    if (clean === "home") return t("nav.home");
+    if (clean === "about" || clean === "aboutus") return t("nav.about");
+    if (clean === "programs") return t("nav.programs");
+    if (clean === "facilities") return t("nav.facilities");
+    if (clean === "admission" || clean === "admissions") return t("nav.admission");
+    if (clean === "gallery") return t("nav.gallery");
+    if (clean === "testimonials") return t("nav.testimonials");
+    if (clean === "events") return t("nav.events");
+    if (clean === "faculty" || clean === "teachers") return t("nav.faculty");
+    if (clean === "faq") return t("nav.faq");
+    if (clean === "contact") return t("nav.contact");
+    return label;
+  };
+
+  const navLinks = content.navigation.links.length > 0 ? content.navigation.links : [
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Programs", href: "#programs" },
+    { label: "Why Us", href: "#why-choose-us" },
+    { label: "Facilities", href: "#facilities" },
+    { label: "Admission", href: "#admission" },
+    { label: "Gallery", href: "#gallery" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "Events", href: "#events" },
+    { label: "Faculty", href: "#faculty" },
+    { label: "FAQ", href: "#faq" },
+  ];
 
   return (
     <nav
@@ -40,13 +72,13 @@ const Navbar = () => {
           <span className={`font-heading text-lg font-bold tracking-tight transition-colors duration-300 ${
             isScrolled ? "text-foreground" : "text-white"
           }`}>
-            {content.branding.brandName}
+            {content.branding.brandName || "Bright Futures"}
           </span>
         </a>
 
         {/* Desktop */}
         <div className="hidden items-center gap-1 lg:flex">
-          {content.navigation.links.map((link) => (
+          {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -56,57 +88,53 @@ const Navbar = () => {
                   : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
-              {link.label}
+              {getTranslatedLabel(link.label)}
             </a>
           ))}
+          
           <div className="mx-2 h-5 w-px bg-border" />
+          
+          {/* Language Toggle Dropdown */}
+          <LanguageSelector />
+          
           <a
-            href={content.navigation.ctaHref}
-            className="btn-primary ml-1 px-5 py-2.5 text-sm"
+            href={content.navigation.ctaHref || "#admission"}
+            className="btn-primary ml-2 px-5 py-2.5 text-sm"
           >
-            {content.navigation.ctaLabel}
+            {content.navigation.ctaLabel || t("nav.cta")}
             <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-          <a
-            href="https://admin.brightpath.edu.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`ml-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
-              isScrolled
-                ? "border-border text-foreground hover:border-primary/30 hover:bg-primary-50 hover:text-primary"
-                : "border-white/20 text-white hover:border-white/40 hover:bg-white/10"
-            }`}
-          >
-            Login
           </a>
         </div>
 
         {/* Mobile toggle */}
-        <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 lg:hidden ${
-            isScrolled
-              ? "text-foreground hover:bg-muted"
-              : "text-white hover:bg-white/10"
-          }`}
-          aria-label="Toggle menu"
-        >
-          <div className="relative h-5 w-5">
-            <span className={`absolute left-0 top-0.5 h-0.5 w-5 rounded-full transition-all duration-300 ${
-              isMobileOpen
-                ? "translate-y-[7px] rotate-45"
-                : isScrolled ? "bg-foreground" : "bg-white"
-            }`} />
-            <span className={`absolute left-0 top-[9px] h-0.5 w-5 rounded-full transition-all duration-300 ${
-              isMobileOpen ? "opacity-0" : isScrolled ? "bg-foreground" : "bg-white"
-            }`} />
-            <span className={`absolute left-0 bottom-0.5 h-0.5 w-5 rounded-full transition-all duration-300 ${
-              isMobileOpen
-                ? "-translate-y-[7px] -rotate-45"
-                : isScrolled ? "bg-foreground" : "bg-white"
-            }`} />
-          </div>
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <LanguageSelector />
+          <button
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
+              isScrolled
+                ? "text-foreground hover:bg-muted"
+                : "text-white hover:bg-white/10"
+            }`}
+            aria-label="Toggle menu"
+          >
+            <div className="relative h-5 w-5">
+              <span className={`absolute left-0 top-0.5 h-0.5 w-5 rounded-full transition-all duration-300 ${
+                isMobileOpen
+                  ? "translate-y-[7px] rotate-45"
+                  : isScrolled ? "bg-foreground" : "bg-white"
+              }`} />
+              <span className={`absolute left-0 top-[9px] h-0.5 w-5 rounded-full transition-all duration-300 ${
+                isMobileOpen ? "opacity-0" : isScrolled ? "bg-foreground" : "bg-white"
+              }`} />
+              <span className={`absolute left-0 bottom-0.5 h-0.5 w-5 rounded-full transition-all duration-300 ${
+                isMobileOpen
+                  ? "-translate-y-[7px] -rotate-45"
+                  : isScrolled ? "bg-foreground" : "bg-white"
+              }`} />
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -117,37 +145,30 @@ const Navbar = () => {
             : "pointer-events-none -translate-y-4 opacity-0"
         }`}
       >
-        <div className="glass-strong mx-4 mt-2 overflow-hidden rounded-2xl border border-border/50 p-2 shadow-lg">
+        <div className="glass-strong mx-4 mt-2 overflow-y-auto max-h-[80vh] rounded-2xl border border-border/50 p-2 shadow-lg">
           <div className="space-y-0.5 p-2">
-            {content.navigation.links.map((link) => (
+            {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileOpen(false)}
                 className="block rounded-xl px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-primary-50 hover:text-primary"
               >
-                {link.label}
+                {getTranslatedLabel(link.label)}
               </a>
             ))}
           </div>
+          
           <div className="divider mx-4" />
+          
           <div className="space-y-1 p-2">
             <a
-              href={content.navigation.ctaHref}
+              href={content.navigation.ctaHref || "#admission"}
               onClick={() => setIsMobileOpen(false)}
               className="btn-primary flex w-full items-center justify-center px-5 py-3 text-sm"
             >
-              {content.navigation.ctaLabel}
+              {content.navigation.ctaLabel || t("nav.cta")}
               <ArrowRight className="h-3.5 w-3.5" />
-            </a>
-            <a
-              href="https://admin.brightpath.edu.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsMobileOpen(false)}
-              className="btn-secondary flex w-full items-center justify-center px-5 py-3 text-sm"
-            >
-              Login to Portal
             </a>
           </div>
         </div>

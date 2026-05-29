@@ -97,6 +97,12 @@ export const siteSettings = defineType({
         }),
         defineField({ name: "formTitle", type: "string" }),
         defineField({ name: "submitLabel", type: "string" }),
+        defineField({ 
+          name: "webhookUrl", 
+          title: "Google Sheet / Webhook URL (Optional)", 
+          type: "string", 
+          description: "All submissions will be posted here to save in Google Sheets or your custom CRM database (e.g. Google Script App URL)" 
+        }),
       ],
     }),
     defineField({
@@ -224,6 +230,26 @@ export const siteSettings = defineType({
         defineField({ name: "phoneNumber", type: "string" }),
         defineField({ name: "whatsappNumber", type: "string" }),
         defineField({ name: "whatsappMessage", type: "string" }),
+      ],
+    }),
+    defineField({
+      name: "teachersSection",
+      title: "Teachers Section Headers",
+      type: "object",
+      fields: [
+        defineField({ name: "eyebrow", type: "string" }),
+        defineField({ name: "title", type: "string" }),
+        defineField({ name: "subtitle", type: "text" }),
+      ],
+    }),
+    defineField({
+      name: "eventsSection",
+      title: "Events Section Headers",
+      type: "object",
+      fields: [
+        defineField({ name: "eyebrow", type: "string" }),
+        defineField({ name: "title", type: "string" }),
+        defineField({ name: "subtitle", type: "text" }),
       ],
     }),
   ],

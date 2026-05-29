@@ -309,3 +309,39 @@
   0%, 100% { box-shadow: 0 0 20px -4px hsla(221, 83%, 53%, 0.3); }
   50% { box-shadow: 0 0 30px -4px hsla(221, 83%, 53%, 0.5); }
 }
+
+/* Custom Styled Input Range Slider Details */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  box-shadow: 0 0 10px -2px hsla(221, 83%, 53%, 0.5);
+  border: 3px solid white;
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: var(--shadow-glow);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  box-shadow: 0 0 10px -2px hsla(221, 83%, 53%, 0.5);
+  border: 3px solid white;
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: var(--shadow-glow);
+}
+

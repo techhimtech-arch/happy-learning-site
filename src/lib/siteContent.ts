@@ -53,6 +53,7 @@ export type SiteContent = {
     steps: Array<{ step: string; title: string; desc: string }>;
     formTitle: string;
     submitLabel: string;
+    webhookUrl?: string;
   };
   gallery: {
     eyebrow: string;
@@ -101,8 +102,18 @@ export type SiteContent = {
     whatsappNumber: string;
     whatsappMessage: string;
   };
+  teachersSection?: {
+    eyebrow?: string;
+    title?: string;
+    subtitle?: string;
+  };
+  eventsSection?: {
+    eyebrow?: string;
+    title?: string;
+    subtitle?: string;
+  };
   programsList?: Array<{ title: string; slug?: { current?: string }; excerpt?: string; featured?: boolean }>;
-  testimonialsList?: Array<{ name: string; role: string; text: string; rating?: number }>;
+  testimonialsList?: Array<{ name: string; role: string; text: string; rating?: number; videoUrl?: string }>;
   galleryImages?: Array<{ image?: string; alt?: string; caption?: string }>;
   teachersList?: Array<{ name: string; title?: string; bio?: string; photoUrl?: string }>;
   eventsList?: Array<{ title: string; date?: string; location?: string; description?: string; signupUrl?: string }>;
@@ -118,7 +129,7 @@ export const defaultSiteContent: SiteContent = {
   about: { eyebrow: "", title: "", description: "", highlights: [] },
   programs: { eyebrow: "", title: "", description: "", items: [] },
   facilities: { eyebrow: "", title: "", items: [] },
-  admission: { eyebrow: "", title: "", badge: "", steps: [], formTitle: "", submitLabel: "" },
+  admission: { eyebrow: "", title: "", badge: "", steps: [], formTitle: "", submitLabel: "", webhookUrl: "" },
   gallery: { eyebrow: "", title: "", images: [] },
   testimonials: { eyebrow: "", title: "", items: [] },
   achievements: { eyebrow: "", title: "", items: [] },
@@ -127,6 +138,8 @@ export const defaultSiteContent: SiteContent = {
   whyChooseUs: { eyebrow: "", title: "", items: [] },
   footer: { brandName: "", description: "", quickLinks: [], programs: [], contactDetails: [], socialLinks: [], copyrightText: "", poweredByText: "", poweredByHref: "" },
   floatingButtons: { phoneNumber: "", whatsappNumber: "", whatsappMessage: "" },
+  teachersSection: { eyebrow: "", title: "", subtitle: "" },
+  eventsSection: { eyebrow: "", title: "", subtitle: "" },
   globalAlert: { isActive: false, message: "" },
 };
 
@@ -142,7 +155,9 @@ export const siteContentQuery = `*[_type == "siteSettings"][0]{
   contact,
   faq,
   whyChooseUs,
-  floatingButtons
+  floatingButtons,
+  teachersSection,
+  eventsSection
 }`;
 
 export const brandingQuery = `*[_type == "branding"][0]{brandName, tagline, "logoUrl": logo.asset->url}`;
@@ -153,7 +168,7 @@ export const footerQuery = `*[_type == "footer"][0]{description, quickLinks, pro
 
 export const programsListQuery = `*[_type == "program"]{title, slug, excerpt, featured, "thumbnailUrl": thumbnail.asset->url}`;
 
-export const testimonialsListQuery = `*[_type == "testimonial"]{name, role, text, rating}`;
+export const testimonialsListQuery = `*[_type == "testimonial"]{name, role, text, rating, videoUrl}`;
 
 export const galleryImagesQuery = `*[_type == "galleryImage"]{"imageUrl": image.asset->url, alt, caption, category}`;
 
@@ -211,6 +226,7 @@ export function mergeSiteContent(incoming?: Partial<SiteContent> | null): SiteCo
       ...defaultSiteContent.admission,
       ...incoming.admission,
       steps: mergeArray(defaultSiteContent.admission.steps, incoming.admission?.steps),
+      webhookUrl: incoming.admission?.webhookUrl || defaultSiteContent.admission.webhookUrl,
     },
     gallery: {
       ...defaultSiteContent.gallery,
@@ -255,6 +271,8 @@ export function mergeSiteContent(incoming?: Partial<SiteContent> | null): SiteCo
       ...defaultSiteContent.floatingButtons,
       ...incoming.floatingButtons,
     },
+    teachersSection: incoming.teachersSection || defaultSiteContent.teachersSection,
+    eventsSection: incoming.eventsSection || defaultSiteContent.eventsSection,
     globalAlert: incoming.globalAlert || defaultSiteContent.globalAlert,
   };
 }
