@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { GraduationCap, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSiteContent } from "./SiteContentProvider";
 import LanguageSelector from "./LanguageSelector";
 
@@ -63,7 +64,11 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-6">
-        <a href="#home" className="group flex items-center gap-2.5 transition-opacity hover:opacity-80">
+        <motion.a 
+          href="#home" 
+          whileHover={{ y: -2 }}
+          className="group flex items-center gap-2.5 transition-opacity hover:opacity-80"
+        >
           <div className={`flex h-9 w-9 items-center justify-center rounded-lg transition-all duration-300 ${
             isScrolled ? "bg-primary" : "bg-white/15 backdrop-blur-sm"
           }`}>
@@ -74,22 +79,23 @@ const Navbar = () => {
           }`}>
             {content.branding.brandName || "Bright Futures"}
           </span>
-        </a>
+        </motion.a>
 
         {/* Desktop */}
         <div className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
-            <a
+            <motion.a
               key={link.href}
               href={link.href}
+              whileHover={{ y: -3, textShadow: "0px 0px 8px rgba(96, 165, 250, 0.6)" }}
               className={`relative rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-300 ${
                 isScrolled
-                  ? "text-foreground/70 hover:text-foreground hover:bg-primary-50"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
+                  ? "text-foreground/70 hover:text-primary"
+                  : "text-white/80 hover:text-white"
               }`}
             >
               {getTranslatedLabel(link.label)}
-            </a>
+            </motion.a>
           ))}
           
           <div className="mx-2 h-5 w-px bg-border" />

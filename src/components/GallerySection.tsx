@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
-import ScrollReveal from "./ScrollReveal";
 import { useSiteContent } from "./SiteContentProvider";
+import { motion } from "framer-motion";
 
 // Import local fallbacks
 import gallery1 from "@/assets/gallery-1.jpg";
@@ -85,62 +85,84 @@ const GallerySection = () => {
   return (
     <section id="gallery" className="section-padding section-light">
       <div className="container mx-auto">
-        <ScrollReveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">{t("gallery.eyebrow")}</span>
-            <h2 className="section-title mt-3">
-              {content.gallery.title || t("gallery.title")}
-            </h2>
-          </div>
-        </ScrollReveal>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <span className="eyebrow">{t("gallery.eyebrow")}</span>
+          <h2 className="section-title mt-3 text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+            {content.gallery.title || t("gallery.title")}
+          </h2>
+        </motion.div>
 
         {/* Filter Tabs */}
-        <ScrollReveal delay={100}>
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {filters.map((f) => (
-              <button
-                key={f.code}
-                onClick={() => setActiveFilter(f.code)}
-                className={`rounded-xl px-5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-300 ${
-                  activeFilter === f.code
-                    ? "bg-primary text-white shadow-glow ring-2 ring-primary/10"
-                    : "glass text-foreground hover:bg-primary-50/50 hover:text-primary hover:border-primary/10"
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </ScrollReveal>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-10 flex flex-wrap justify-center gap-2"
+        >
+          {filters.map((f) => (
+            <button
+              key={f.code}
+              onClick={() => setActiveFilter(f.code)}
+              className={`rounded-xl px-5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-300 ${
+                activeFilter === f.code
+                  ? "bg-primary text-white shadow-glow ring-2 ring-primary/20"
+                  : "bg-white/[0.05] border border-white/10 text-white/70 hover:bg-white/[0.1] hover:text-white"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </motion.div>
 
-        {/* Masonry / Grid Display */}
-        <div className="mx-auto mt-12 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredImages.map((img, index) => (
-            <ScrollReveal key={`${img.src}-${index}`} delay={index * 50}>
-              <div 
-                onClick={() => openLightbox(index)}
-                className="group relative cursor-pointer overflow-hidden rounded-2xl border border-border/40 bg-card shadow-sm transition-all duration-500 hover:shadow-hover hover:-translate-y-1"
+        {/* Masonry / Zero-G Display */}
+        <div className="mx-auto mt-16 max-w-6xl columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 group/gallery">
+          {filteredImages.map((img, index) => {
+            const randomDuration = 4 + Math.random() * 3;
+            const randomDelay = Math.random() * 2;
+            const yOffset = 10 + Math.random() * 15;
+
+            return (
+              <motion.div
+                key={`${img.src}-${index}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "100px" }}
+                animate={{ y: [0, -yOffset, 0] }}
+                transition={{ 
+                  y: { repeat: Infinity, duration: randomDuration, delay: randomDelay, ease: "easeInOut" },
+                  opacity: { duration: 0.5 },
+                  scale: { duration: 0.5 }
+                }}
+                className="break-inside-avoid"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
+                <div 
+                  onClick={() => openLightbox(index)}
+                  className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm transition-all duration-500 hover:!opacity-100 hover:scale-105 group-hover/gallery:opacity-40 hover:z-10 hover:shadow-glow"
+                >
                   <img
                     src={img.src}
                     alt={img.alt}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full object-cover transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
-                </div>
-                
-                {/* Visual Glass Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 flex flex-col justify-end p-5">
-                  <div className="translate-y-4 transition-transform duration-500 group-hover:translate-y-0 text-white">
-                    <Maximize2 className="h-5 w-5 mb-2 text-white/80" />
-                    <h4 className="font-heading text-sm font-semibold tracking-tight leading-snug">{img.caption}</h4>
-                    <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider mt-1 block">{img.category}</span>
+                  
+                  {/* Visual Glass Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 flex flex-col justify-end p-5">
+                    <div className="translate-y-4 transition-transform duration-500 group-hover:translate-y-0 text-white">
+                      <Maximize2 className="h-5 w-5 mb-2 text-white/80" />
+                      <h4 className="font-heading text-base font-bold tracking-tight leading-snug">{img.caption}</h4>
+                      <span className="text-xs uppercase font-bold text-primary tracking-widest mt-2 block">{img.category}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Full-screen Glassmorphic Lightbox */}

@@ -1,4 +1,4 @@
-import { GraduationCap, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { GraduationCap, Facebook, Twitter, Instagram, Youtube, Rocket } from "lucide-react";
 import { useSiteContent } from "./SiteContentProvider";
 
 const iconMap: Record<string, typeof Facebook> = {
@@ -10,6 +10,10 @@ const iconMap: Record<string, typeof Facebook> = {
 
 const Footer = () => {
   const { content } = useSiteContent();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <footer className="relative overflow-hidden">
@@ -88,10 +92,20 @@ const Footer = () => {
           </div>
 
           {/* Bottom bar */}
-          <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
+          <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row relative">
             <p className="text-xs text-white/40">
               {content.footer.copyrightText}
             </p>
+            
+            {/* Back to Top Rocket */}
+            <button 
+              onClick={scrollToTop}
+              className="absolute -top-6 right-0 sm:static sm:mt-0 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-white shadow-glow hover:-translate-y-2 hover:shadow-hover transition-all duration-300 group z-20"
+              aria-label="Back to top"
+            >
+              <Rocket className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1" />
+            </button>
+
             <p className="text-xs text-white/40">
               Powered by{" "}
               <a href={content.footer.poweredByHref} className="font-medium text-white/60 transition-colors hover:text-white">{content.footer.poweredByText}</a>

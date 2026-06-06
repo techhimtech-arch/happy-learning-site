@@ -71,67 +71,70 @@ const TestimonialsSection = () => {
 
   return (
     <section id="testimonials" className="section-padding">
-      <div className="container mx-auto">
-        <ScrollReveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">{t("test.eyebrow")}</span>
-            <h2 className="section-title mt-3">
-              {content.testimonials.title || t("test.title")}
-            </h2>
-          </div>
-        </ScrollReveal>
+      <div className="container mx-auto overflow-hidden">
+        <div className="mx-auto max-w-2xl text-center mb-16">
+          <span className="eyebrow">{t("test.eyebrow")}</span>
+          <h2 className="section-title mt-3 text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+            {content.testimonials.title || t("test.title")}
+          </h2>
+        </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-5 md:grid-cols-3">
-          {testimonials.map((testimonial, index) => {
-            const hasVideo = Boolean(testimonial.videoUrl);
+        <div className="relative flex w-full overflow-hidden">
+          {/* Gradient Edges for fade effect */}
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-background to-transparent" />
+          
+          <div className="flex w-max min-w-full animate-marquee hover:[animation-play-state:paused] gap-6 px-3">
+            {[...testimonials, ...testimonials].map((testimonial, index) => {
+              const hasVideo = Boolean(testimonial.videoUrl);
 
-            return (
-              <ScrollReveal key={testimonial.name} delay={index * 100}>
-                <div className="premium-card group relative p-7 h-full flex flex-col justify-between border-primary/5 hover:border-primary/15">
-                  {/* Quote icon overlay */}
-                  <Quote className="absolute top-6 right-6 h-8 w-8 text-primary/5 transition-colors duration-500 group-hover:text-primary/10" />
+              return (
+                <div key={`${testimonial.name}-${index}`} className="w-[350px] shrink-0">
+                  <div className="premium-card group relative p-7 h-full flex flex-col justify-between border-white/5 bg-white/[0.02] backdrop-blur-md hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300">
+                    {/* Quote icon overlay */}
+                    <Quote className="absolute top-6 right-6 h-8 w-8 text-primary/10 transition-colors duration-500 group-hover:text-primary/30" />
 
-                  <div className="space-y-4">
-                    {/* Stars */}
-                    <div className="flex gap-0.5">
-                      {Array.from({ length: testimonial.rating }).map((_, ratingIndex) => (
-                        <Star key={ratingIndex} className="h-3.5 w-3.5 fill-secondary text-secondary" />
-                      ))}
+                    <div className="space-y-4">
+                      {/* Stars */}
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: testimonial.rating }).map((_, ratingIndex) => (
+                          <Star key={ratingIndex} className="h-3.5 w-3.5 fill-accent text-accent" />
+                        ))}
+                      </div>
+
+                      <p className="text-sm leading-relaxed text-white/70 italic">
+                        "{testimonial.text}"
+                      </p>
                     </div>
 
-                    <p className="text-sm leading-relaxed text-muted-foreground italic">
-                      "{testimonial.text}"
-                    </p>
-                  </div>
+                    <div className="mt-8 flex items-center justify-between gap-3">
+                      {/* Profile */}
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 text-sm font-bold text-primary shrink-0 shadow-glow">
+                          {testimonial.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="font-heading text-sm font-semibold text-white">{testimonial.name}</div>
+                          <div className="text-[11px] text-white/50">{testimonial.role}</div>
+                        </div>
+                      </div>
 
-                  <div className="mt-8 flex items-center justify-between gap-3">
-                    {/* Profile */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-50 text-sm font-bold text-primary shrink-0">
-                        {testimonial.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="font-heading text-sm font-semibold text-foreground">{testimonial.name}</div>
-                        <div className="text-[11px] text-muted-foreground">{testimonial.role}</div>
-                      </div>
+                      {/* Play Video button */}
+                      {hasVideo && (
+                        <button
+                          onClick={() => handlePlay(testimonial.videoUrl!)}
+                          className="group/btn flex h-9 w-9 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-glow transition-all duration-300 hover:scale-105 active:scale-95"
+                          title={t("test.playVideo")}
+                        >
+                          <Play className="h-3.5 w-3.5 fill-accent-foreground text-accent-foreground transition-transform group-hover/btn:scale-110" />
+                        </button>
+                      )}
                     </div>
-
-                    {/* Play Video button */}
-                    {hasVideo && (
-                      <button
-                        onClick={() => handlePlay(testimonial.videoUrl!)}
-                        className="group/btn flex h-9 w-9 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-sm transition-all duration-300 hover:scale-105 active:scale-95"
-                        style={{ boxShadow: "0 2px 10px -2px hsla(142, 71%, 45%, 0.4)" }}
-                        title={t("test.playVideo")}
-                      >
-                        <Play className="h-3.5 w-3.5 fill-accent-foreground text-accent-foreground transition-transform group-hover/btn:scale-110" />
-                      </button>
-                    )}
                   </div>
                 </div>
-              </ScrollReveal>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Video Lightbox Player Modal */}

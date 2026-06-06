@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { Users, Award, Clock, Trophy, ArrowRight } from "lucide-react";
+import { Users, Award, Clock, Trophy, ArrowRight, Rocket } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useSiteContent } from "./SiteContentProvider";
 
@@ -135,10 +136,15 @@ const HeroSection = () => {
     { value: "15:1", label: t("hero.stat.ratio") },
   ];
 
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
+  const y2 = useTransform(scrollY, [0, 1000], [0, -150]);
+
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden">
       {/* Background image */}
-      <img
+      <motion.img
+        style={{ y: y1 }}
         src={content.hero.backgroundImageUrl || heroBg}
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
@@ -163,10 +169,17 @@ const HeroSection = () => {
 
       <div className="container relative mx-auto px-4 pt-32 pb-16 z-20">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Badge */}
-          <div className="animate-fade-up mb-6">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+          {/* Badge & Tagline */}
+          <div className="animate-fade-up mb-6 flex flex-col items-center gap-3">
+            <motion.span 
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 4 }}
+              className="text-xl font-heading text-white/80 tracking-widest font-medium"
+            >
+              🚀 Floating Towards Excellence
+            </motion.span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-white backdrop-blur-md shadow-glass">
+              <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
               {badgeText}
             </span>
           </div>
@@ -183,19 +196,23 @@ const HeroSection = () => {
 
           {/* CTAs */}
           <div className="animate-fade-up-delay-3 flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <a
+            <motion.a
               href="#admission"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary shadow-lg transition-all duration-300 hover:bg-white/95 hover:shadow-glow hover:-translate-y-0.5"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-base font-semibold text-accent-foreground shadow-glow transition-all duration-300 hover:bg-accent/90"
             >
               {t("hero.secondaryCta")}
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </a>
-            <a
+              <Rocket className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+            </motion.a>
+            <motion.a
               href="#programs"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/10 hover:-translate-y-0.5"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/30 bg-black/20 px-8 py-4 text-base font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white/60 hover:bg-white/10"
             >
               {t("nav.programs")}
-            </a>
+            </motion.a>
           </div>
         </div>
 
