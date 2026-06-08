@@ -77,7 +77,7 @@ const Navbar = () => {
           <span className={`font-heading text-lg font-bold tracking-tight transition-colors duration-300 ${
             isScrolled ? "text-foreground" : "text-white"
           }`}>
-            {content.branding.brandName || "Bright Futures"}
+            {content.branding.brandName || "demo Futures"}
           </span>
         </motion.a>
 

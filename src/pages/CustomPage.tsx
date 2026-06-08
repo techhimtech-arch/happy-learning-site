@@ -87,7 +87,7 @@ const CustomPage = () => {
             setPage(data);
             
             // Dynamic SEO updates
-            document.title = data.seoTitle || `${data.title} | Bright Futures School`;
+            document.title = data.seoTitle || `${data.title} | demo Futures School`;
             if (data.seoDescription) {
               const metaDesc = document.querySelector('meta[name="description"]');
               if (metaDesc) {

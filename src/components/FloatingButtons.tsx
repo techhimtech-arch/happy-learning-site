@@ -6,7 +6,7 @@ const FloatingButtons = () => {
   
   const whatsappNumber = content.floatingButtons.whatsappNumber || "919999888800";
   const phoneNumber = content.floatingButtons.phoneNumber || "+919999888800";
-  const whatsappMsg = content.floatingButtons.whatsappMessage || "Hello, I want to inquire about admissions for Bright Futures School.";
+  const whatsappMsg = content.floatingButtons.whatsappMessage || "Hello, I want to inquire about admissions for demo Futures School.";
 
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent(whatsappMsg)}`;
 

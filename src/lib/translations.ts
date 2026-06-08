@@ -70,7 +70,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Gallery
     "gallery.eyebrow": "Moments Captured",
-    "gallery.title": "Life at Bright Futures",
+    "gallery.title": "Life at demo Futures",
     "gallery.filter.all": "All",
     "gallery.filter.classroom": "Classrooms",
     "gallery.filter.sports": "Sports",

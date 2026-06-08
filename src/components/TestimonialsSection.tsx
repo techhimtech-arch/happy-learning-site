@@ -22,7 +22,7 @@ const fallbackTestimonials: TestimonialItem[] = [
   {
     name: "Dr. Amit Verma",
     role: "Parent of Class 8 Student",
-    text: "Bright Futures offers an exceptional blend of premium academic rigor and co-curricular sports programs. The safety protocols on campus are also top-notch.",
+    text: "demo Futures offers an exceptional blend of premium academic rigor and co-curricular sports programs. The safety protocols on campus are also top-notch.",
     rating: 5,
   },
   {

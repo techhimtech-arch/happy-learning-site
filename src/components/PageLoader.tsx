@@ -10,7 +10,7 @@ const PageLoader = () => {
         <div className="absolute -inset-3 animate-ping rounded-2xl border border-primary/20" />
       </div>
       <h2 className="font-heading text-lg font-bold tracking-tight text-foreground">Bright Path Education</h2>
-      <p className="mt-1.5 text-sm text-muted-foreground">Preparing for a bright future...</p>
+      <p className="mt-1.5 text-sm text-muted-foreground">Preparing for a demo Future...</p>
       <div className="mt-8 h-1 w-48 overflow-hidden rounded-full bg-muted">
         <div className="h-full w-full origin-left animate-[loading_1.5s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-primary to-accent" />
       </div>

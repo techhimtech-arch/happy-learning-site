@@ -26,7 +26,7 @@ const fallbackEvents: EventItem[] = [
     signupUrl: "https://brightfutures.edu/rsvp-ptm",
   },
   {
-    title: "Bright Futures Annual Sports Championship",
+    title: "demo Futures Annual Sports Championship",
     date: "2026-06-29T08:00:00Z",
     location: "Green Turf Athletics Ground",
     description: "Inter-house track races, football tournaments, and gymnastic displays showcasing dedicated physical spirit.",
